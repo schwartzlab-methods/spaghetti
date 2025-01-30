@@ -42,4 +42,4 @@ if __name__ == "__main__":
     print("Checkpoint file found at ", args.checkpoint, "will be used for inference")
     print("Starting Inference...")
     main(args.input, args.output, args.checkpoint)
-    print("Inference Completed。 Images saved to ", args.output)
+    print("Inference Completed. Images saved to ", args.output)
