@@ -4,6 +4,17 @@ import torchvision.transforms.v2 as v2
 import torch
 import os
 
+# To train, you need to supply two datasets:
+# - Dataset from **domain 1**: the images of the domain you want to **translate**
+# - Dataset from **domain 2**: the images of the domain you want to be **translated into**
+
+# Here we use two small and very truncated datasets as examples:
+# - Domain 1: Ten cropped images from LIVECell (Edlund et al., 2021), a dataset of phase-contrast microscopy.
+# - Domain 2: Ten images from PanNuke (Gamper et al., 2020), a dataset of H&E.
+
+# You can find those two truncated dataset at ``./example_datasets/``
+
+
 domain_1_path_rel = './example_datasets/livecell/'
 domain_2_path_rel = './example_datasets/pannuke/'
 

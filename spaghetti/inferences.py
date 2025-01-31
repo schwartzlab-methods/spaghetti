@@ -75,6 +75,7 @@ class Spaghetti():
         return:
             list[torch.Tensor], the images after the SPAGHETTI transformaton
         '''
+        print("Performing Inference...")
         transformed_imgs = []
         with torch.no_grad():
             for idx, img in enumerate(tqdm(imgs)):
@@ -87,6 +88,8 @@ class Spaghetti():
                 out = (out-min_val)/(max(max_val-min_val, 1e-5))
                 out = torch.clamp(out, min=0, max=1) # ensure no overflow
                 if save_path:
+                    if not os.path.exists(save_path):
+                        os.makedirs(save_path)
                     name = os.path.join(save_path, f"transformed_{idx}.png")
                     save_image(out, name, nrow=1, normalize=True, value_range=(-1, 1))
                 transformed_imgs.append(out)
