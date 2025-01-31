@@ -2,7 +2,7 @@
 Perform pre-processing on the images using the pre-trained model
 '''
 import torch
-import _spaghetti_modules as sp_modules
+from spaghetti import _spaghetti_modules as sp_modules
 import os
 from tqdm import tqdm
 from torchvision.utils import save_image

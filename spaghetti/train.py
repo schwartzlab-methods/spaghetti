@@ -8,8 +8,8 @@ import pytorch_lightning as pl
 from pytorch_lightning.loggers import CSVLogger
 from torchvision.utils import save_image
 import itertools
-import _spaghetti_modules as sp_modules
-import utils
+from . import _spaghetti_modules as sp_modules
+from . import utils
 
 class Spaghetti(pl.LightningModule):
     '''
@@ -153,7 +153,7 @@ class Spaghetti(pl.LightningModule):
 
 def train_spaghetti(train_loader, val_loader, batch_size=1, weights=[1.0, 10.0, 5.0, 10.0],
                     lr = 0.0002, save_dir = None, epochs=100, name="my_spaghetti",
-                    num_nodes=1, ngpus_per_node=1):
+                    num_nodes=1, ngpus_per_node="auto"):
     '''
     Train the SPAGHETTI model using PyTorch Lightning.
     args:
@@ -167,12 +167,14 @@ def train_spaghetti(train_loader, val_loader, batch_size=1, weights=[1.0, 10.0, 
         epochs: int, the number of epochs to train the model, default 100
         name: str, the name of the model for the logger, default "my_spaghetti"
         num_nodes: int, the number of nodes to train the model, default 1
-        ngpus_per_node: int, the number of GPUs per node, default 1
+        ngpus_per_node: int, the number of GPUs per node, default "auto" to use all the available GPUs
     '''
     if save_dir is None:
         final_save_dir = os.getcwd()
     else:
         final_save_dir = save_dir
+    if not os.path.exists(os.path.join(final_save_dir, f"{name}_visualization")):
+        os.makedirs(os.path.join(final_save_dir, f"{name}_visualization"))
     # create model
     lit_model = Spaghetti(save_dir=final_save_dir, batch_size=batch_size, weights=weights, lr=lr)
     # train model
@@ -183,7 +185,7 @@ def train_spaghetti(train_loader, val_loader, batch_size=1, weights=[1.0, 10.0, 
                          default_root_dir=final_save_dir, logger=logger)
     print("Trainer initialized with ", ngpus_per_node, "GPU(s) per node on ", num_nodes, "node(s)")
     print("Training Starting...")
-    ckpt = utils.find_checkpoint(save_dir)
+    ckpt = utils.find_checkpoint(final_save_dir)
     if ckpt:
         print("Checkpoint found. Resuming from ", ckpt)
     else:

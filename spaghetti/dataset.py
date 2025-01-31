@@ -22,8 +22,8 @@ class TrainingDataset(Dataset):
         # domain 1
         domain1_paths = []
         for each in path_1:
-            domain1_paths.extend([os.path.join(path, x) 
-                                for path, _, files in os.walk(each) for x in files])
+            domain1_paths.extend([os.path.join(each, x) for x in os.listdir(each) 
+                                  if x.endswith((".png", ".jpg", ".jpeg", ".tiff", ".tif"))])
         if num_sample:
             try:
                 self.domain1_images = random.sample(domain1_paths, k=num_sample)
@@ -35,8 +35,8 @@ class TrainingDataset(Dataset):
         # domain 2
         domain2_paths = []
         for each in path_2:
-            domain2_paths.extend([os.path.join(path, x) 
-                               for path, _, files in os.walk(each) for x in files])
+            domain2_paths.extend([os.path.join(each, x) for x in os.listdir(each)
+                                  if x.endswith((".png", ".jpg", ".jpeg", ".tiff", ".tif"))])
         if num_sample:
             try:
                 self.domain2_images = random.sample(domain2_paths, k=num_sample)
@@ -51,6 +51,7 @@ class TrainingDataset(Dataset):
         self.domain2_len = len(self.domain2_images)
         self.transform_1 = transform_1
         self.transform_2 = transform_2
+        print("Dataset created with: ", self.length_dataset, " samples")
 
     def __len__(self):
         return self.length_dataset

@@ -3,12 +3,12 @@ Entry point for the CLI inference of SPAGHETTI.
 '''
 import os
 import argparse
-import inferences
+from spaghetti import inferences
 from PIL import Image
 
-def main(input, output, checkpoint):
+def inference(input, output, checkpoint):
     '''
-    The main function for the CLI inference
+    The inference function for the CLI inference
     args:
         input: str, the input image or directory to translate
         output: str, the output directory to save the translated image(s)
@@ -31,7 +31,7 @@ def main(input, output, checkpoint):
     processed_imgs = model.pre_processing(pil_imgs, transform="default")
     model.inference(processed_imgs, output)
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="CLI for translating PCM images using SPAGHETTI")
     parser.add_argument("--input", '-i', type=str, help="The input image or directory to translate")
     parser.add_argument("--output", '-o', type=str, help="The output directory to save the translated image(s)")
@@ -41,5 +41,8 @@ if __name__ == "__main__":
     print("Welcome to SPAGHETTI CLI Inference")
     print("Checkpoint file found at ", args.checkpoint, "will be used for inference")
     print("Starting Inference...")
-    main(args.input, args.output, args.checkpoint)
+    inference(args.input, args.output, args.checkpoint)
     print("Inference Completed. Images saved to ", args.output)
+
+if __name__ == "__main__":
+    main()

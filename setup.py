@@ -9,10 +9,10 @@ setup(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/schwartzlab-methods/spaghetti",  
-    packages=find_packages(),  
+    packages=find_packages(exclude=["tutorials*"]),  
     entry_points={
         "console_scripts": [
-            "spaghetti=src.cli_inference:main",
+            "spaghetti=spaghetti.cli_inference:main",
         ],
     },
     classifiers=[
@@ -22,8 +22,8 @@ setup(
     ],
     python_requires=">=3.9", 
     install_requires=[
-        "torch>=2.3.0",
-        "torchvision>=0.18.0",
+        "torch>=2.2.0",
+        "torchvision>=0.17.0",
         "numpy>=1.26.4",
         "Pillow>=10.3.0",
         "scikit-image>=0.18.3",
