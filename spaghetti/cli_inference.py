@@ -18,18 +18,21 @@ def inference(input, output, checkpoint):
     if os.path.isdir(input):
         # get all images
         imgs = []
+        names = []
         for path, _, files in os.walk(input):
             for f in files:
                 if f.endswith((".jpg", ".jpeg", ".png", ".tiff", ".tif")):
                     imgs.append(os.path.join(path, f))
+                    names.append(f.split(".")[0])
     else:
         imgs = [input]
+        names = [str(os.path.basename(input)).split(".")[0]]
     # create the model
     model = inferences.Spaghetti(checkpoint)
     # perform the inference
     pil_imgs = [Image.open(img).convert("RGB") for img in imgs]
     processed_imgs = model.pre_processing(pil_imgs, transform="default")
-    model.inference(processed_imgs, output)
+    model.inference(processed_imgs, names, output)
 
 def main():
     parser = argparse.ArgumentParser(description="CLI for translating PCM images using SPAGHETTI")

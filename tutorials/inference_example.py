@@ -15,10 +15,12 @@ checkpoint_path = os.path.abspath(checkpoint_path)
 
 # get all the imgs
 imgs = []
+file_names = []
 for path, _, files in os.walk(inferences_path):
     for f in files:
         if f.endswith((".jpg", ".jpeg", ".png", ".tiff", ".tif")):
             imgs.append(os.path.join(path, f))
+            file_names.append(f.split(".")[0])
 
 # create the model
 model = inferences.Spaghetti(checkpoint_path)
@@ -30,7 +32,7 @@ processed_imgs = model.pre_processing(pil_imgs, transform="default")
 
 # perform the inferences, this will return the images in a list of cpu torch.Tensor of each translated image
 # if an output path is supplied, the translated images will be saved to the output_path
-outputs = model.inference(processed_imgs, output_path)
+outputs = model.inference(processed_imgs, file_names, output_path)
 
 # you can then do all kinds of fun stuff using H&E models on those translated images!
 
