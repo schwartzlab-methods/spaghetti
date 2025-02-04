@@ -3,4 +3,4 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . ./
-ENTRYPOINT ["python3", "src/cli_inference.py"]
+ENTRYPOINT ["python3", "spaghetti/cli_inference.py"]
