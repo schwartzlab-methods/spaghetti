@@ -1,7 +1,7 @@
 # SPAGHETTI - <ins>S</ins>SIM-restrained <ins>P</ins>h<ins>a</ins>se Contrast Microscopy <ins>G</ins>AN for <ins>H</ins>&<ins>E</ins> <ins>T</ins>ransla<ins>t</ins>ion of <ins>I</ins>mages
 Implementation of the SPAGHETTI method for phase-contrast microscopy images pre-processing so that you can use your favourite H&E model on them.
 
-Read the paper at some_big_jounral_websites.
+Read the paper at some_big_journal_websites.
 
 ## Installing SPAGHETTI
 
@@ -13,16 +13,11 @@ SPAGHETTI is available on the Python Package Index (PyPI) to be installed with `
 
 ### Installing Locally
 
-Alternatively, you may also install SPAGHETTI from the GitHub repository directly. To do that, first create a virtual Python environment and install all the dependencies.
+Alternatively, you may also install SPAGHETTI from the GitHub repository directly. To do that, first create a virtual Python environment and install SPAHETTI locally.
 
 ```bash
 virtualenv --no-download spaghetti
 source spaghetti/bin/activate 
-pip install -r requirements.txt
-```
-
-Then you can build the package by running
-```bash
 git clone https://github.com/schwartzlab-methods/spaghetti
 cd spaghetti
 python setup.py sdist bdist_wheel
