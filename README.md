@@ -9,7 +9,7 @@ Read the paper at some_big_journal_websites.
 
 SPAGHETTI is available on the Python Package Index (PyPI) to be installed with `pip` directly. To install, run:
 
-``pip install spaghetti``
+``pip install pcm-spaghetti``
 
 ### Installing Locally
 
