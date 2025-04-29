@@ -1,8 +1,6 @@
 # SPAGHETTI - <ins>S</ins>SIM-restrained <ins>P</ins>h<ins>a</ins>se Contrast Microscopy <ins>G</ins>AN for <ins>H</ins>&<ins>E</ins> <ins>T</ins>ransla<ins>t</ins>ion of <ins>I</ins>mages
 Implementation of the SPAGHETTI method for phase-contrast microscopy images pre-processing so that you can use your favourite H&E model on them.
 
-Read the paper at some_big_journal_websites.
-
 ## Installing SPAGHETTI
 
 ### Installing using PyPI
