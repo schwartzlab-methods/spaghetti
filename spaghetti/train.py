@@ -11,7 +11,7 @@ import itertools
 from . import _spaghetti_modules as sp_modules
 from . import utils
 
-class Spaghetti(pl.LightningModule):
+class _Spaghetti(pl.LightningModule):
     '''
     Implement the training steps for the SPAGHETTI model
     args:
@@ -176,7 +176,7 @@ def train_spaghetti(train_loader, val_loader, batch_size=1, weights=[1.0, 10.0, 
     if not os.path.exists(os.path.join(final_save_dir, f"{name}_visualization")):
         os.makedirs(os.path.join(final_save_dir, f"{name}_visualization"))
     # create model
-    lit_model = Spaghetti(save_dir=final_save_dir, batch_size=batch_size, weights=weights, lr=lr)
+    lit_model = _Spaghetti(save_dir=final_save_dir, batch_size=batch_size, weights=weights, lr=lr)
     # train model
     logger = CSVLogger(final_save_dir, name=name)
     trainer = pl.Trainer(max_epochs=epochs, devices=ngpus_per_node, num_nodes=num_nodes,

@@ -30,6 +30,7 @@ class Spaghetti():
         self.generator = generator
         self.device = device
 
+    @staticmethod
     def _default_transform(self, img):
         '''
         The default transformation to perform on the image
@@ -45,6 +46,7 @@ class Spaghetti():
                 ]
         return v2.Compose(transform)(img)
 
+    @staticmethod
     def pre_processing(self, imgs, transform: None):
         '''
         Perform the pre-processing on the images
