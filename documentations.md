@@ -1,5 +1,7 @@
 # SPAGHETTI Documentations
 
+Documentations for classes and method for SPAGHETTI. For installing details, see [README.md](README.md). For a tutorial on sample usage, see the directory at ```./tutorials/```
+
 ## ```SPAGHETTI.dataset```
 Set up the dataset to train SPAGHETTI
 
@@ -33,7 +35,7 @@ The function to automatically handle all SPAGHETTI training using ```pytorch_lig
 - **size effects:**
     Run the training scripts and save model checkpoints, loss logs, and sampling images to ```save_dir```.
 
-## ```inferences```
+## ```SPAGHETTI.inferences```
 Modules for performing inferences with SPAGHETTI
 
 ### ```Spaghetti```
