@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="pcm-spaghetti",  
-    version="1.0.1",  
+    version="1.0.2",  
     author="Richard (Zhi Fei) Dong, Chris McIntosh, Gregory W. Schwartz",
     author_email="gregory.schwartz@uhn.ca",
     description="A PyTorch implementation of the SPAGHETTI model for phase-contrast microscopy image transformation",
