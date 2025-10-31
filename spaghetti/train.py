@@ -48,14 +48,25 @@ class _Spaghetti(pl.LightningModule):
                      x1.size(3)//self.D_A.scale_factor]
         valid = torch.ones(out_shape).to(self.device)
         fake_x1, fake_x2, recov_x1, recov_x2, new_x1, new_x2 = res
+        # convert to gray scale for ssim calculation
+        gray = Grayscale(num_output_channels=3)
+        x1_gray = gray(x1)
+        x2_gray = gray(x2)
+        fake_x1_gray = gray(fake_x1)
+        fake_x2_gray = gray(fake_x2)
+        new_x1_gray = gray(new_x1)
+        new_x2_gray = gray(new_x2)
         loss_GAN = (self.criterion_GAN(self.D_A(fake_x1), valid) 
                     + self.criterion_GAN(self.D_B(fake_x2), valid))/2
         loss_cycle = (self.criterion_cycle(recov_x1, x1) 
                       + self.criterion_cycle(recov_x2, x2))/2
         loss_identity = (self.criterion_identity(new_x1, x1) 
                          + self.criterion_identity(new_x2, x2))/2
-        loss_ssim = (self.criterion_ssim(new_x1, x1) 
-                     + self.criterion_ssim(new_x2, x2)) / 2
+        loss_ssim_fake = (self.criterion_ssim(fake_x2_gray, x1_gray) 
+                     + self.criterion_ssim(fake_x1_gray, x2_gray)) / 2
+        loss_ssim_real = (self.criterion_ssim(new_x1_gray, x1_gray)
+                        + self.criterion_ssim(new_x2_gray, x2_gray)) / 2
+        loss_ssim = (loss_ssim_fake + loss_ssim_real) / 2
         total_loss = (self.weights[0] * loss_GAN + self.weights[1] * loss_cycle 
                       + self.weights[2] * loss_identity + self.weights[3] * loss_ssim)
         return total_loss
