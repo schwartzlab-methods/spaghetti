@@ -31,7 +31,7 @@ class Spaghetti():
         self.device = device
 
     @staticmethod
-    def _default_transform(self, img):
+    def _default_transform(img):
         '''
         The default transformation to perform on the image
         args:
@@ -46,7 +46,6 @@ class Spaghetti():
                 ]
         return v2.Compose(transform)(img)
 
-    @staticmethod
     def pre_processing(self, imgs, transform: None):
         '''
         Perform the pre-processing on the images
