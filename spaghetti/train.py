@@ -7,6 +7,7 @@ import torch.nn as nn
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import CSVLogger
 from torchvision.utils import save_image
+from torchvision.transforms import Grayscale
 import itertools
 from . import _spaghetti_modules as sp_modules
 from . import utils
