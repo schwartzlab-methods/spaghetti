@@ -23,7 +23,7 @@ class _Spaghetti(pl.LightningModule):
         GAN loss, cycle loss, identity loss, and SSIM loss. Default [1.0, 10.0, 5.0, 10.0]
         lr: float, the learning rate for the model, default 0.0002
     """
-    def __init__(self, save_dir, batch_size=1, weights=[1.0, 10.0, 5.0, 10.0],
+    def __init__(self, save_dir, batch_size=1, weights=None,
                  lr=0.0005):
         super().__init__()
         self.save_dir = save_dir
@@ -38,13 +38,13 @@ class _Spaghetti(pl.LightningModule):
         self.criterion_cycle = nn.L1Loss()
         self.criterion_identity = nn.L1Loss()
         self.criterion_ssim = sp_modules.SSIMLoss()
-        self.weights = weights
+        self.weights = weights if weights is not None else [1.0, 10.0, 5.0, 10.0]
         # others
         self.batch_size = batch_size
         self.lr = lr
 
     def calculate_loss_generator(self, res, x1, x2):
-        # groud truth
+        # ground truth
         out_shape = [x1.size(0), 1, x1.size(2)//self.D_A.scale_factor,
                      x1.size(3)//self.D_A.scale_factor]
         valid = torch.ones(out_shape).to(self.device)
@@ -109,7 +109,7 @@ class _Spaghetti(pl.LightningModule):
         # discriminator B loss
         d_b_loss = self.calculate_loss_discriminator(self.D_B, x2, fake_x2)
 
-        # optmize
+        # optimize
         total_loss = gen_loss + d_a_loss + d_b_loss
         self.manual_backward(total_loss)
 
@@ -169,7 +169,7 @@ class _Spaghetti(pl.LightningModule):
         return [optimizer_G, optimizer_D_A, optimizer_D_B], []
 
 
-def train_spaghetti(train_loader, val_loader, batch_size=1, weights=[1.0, 10.0, 5.0, 10.0],
+def train_spaghetti(train_loader, val_loader, batch_size=1, weights=None,
                     lr=0.0002, save_dir=None, epochs=100, name="my_spaghetti",
                     num_nodes=1, ngpus_per_node="auto"):
     """
@@ -187,6 +187,8 @@ def train_spaghetti(train_loader, val_loader, batch_size=1, weights=[1.0, 10.0, 
         num_nodes: int, the number of nodes to train the model, default 1
         ngpus_per_node: int, the number of GPUs per node, default "auto" to use all the available GPUs
     """
+    if weights is None:
+        weights = [1.0, 10.0, 5.0, 10.0]
     if save_dir is None:
         final_save_dir = os.getcwd()
     else:
