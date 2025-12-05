@@ -1,19 +1,20 @@
-'''
+"""
 Entry point for the CLI inference of SPAGHETTI.
-'''
+"""
 import os
 import argparse
 from spaghetti import inferences
 from PIL import Image
 
+
 def inference(input, output, checkpoint):
-    '''
+    """
     The inference function for the CLI inference
     args:
         input: str, the input image or directory to translate
         output: str, the output directory to save the translated image(s)
         checkpoint: str, the path to the checkpoint file
-    '''
+    """
     # check if input is a directory
     if os.path.isdir(input):
         # get all images
@@ -34,6 +35,7 @@ def inference(input, output, checkpoint):
     processed_imgs = model.pre_processing(pil_imgs, transform="default")
     model.inference(processed_imgs, names, output)
 
+
 def main():
     parser = argparse.ArgumentParser(description="CLI for translating PCM images using SPAGHETTI")
     parser.add_argument("--input", '-i', type=str, help="The input image or directory to translate")
@@ -46,6 +48,7 @@ def main():
     print("Starting Inference...")
     inference(args.input, args.output, args.checkpoint)
     print("Inference Completed. Images saved to ", args.output)
+
 
 if __name__ == "__main__":
     main()
