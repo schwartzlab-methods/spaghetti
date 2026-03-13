@@ -24,9 +24,10 @@ class _Spaghetti(pl.LightningModule):
         lr: float, the learning rate for the model, default 0.0002
     """
     def __init__(self, save_dir, batch_size=1, weights=None,
-                 lr=0.0005):
+                 lr=0.0005, visualization_subdir="visualization"):
         super().__init__()
         self.save_dir = save_dir
+        self.visualization_subdir = visualization_subdir
         self.automatic_optimization = False
         # model
         self.G_AB = sp_modules.GeneratorResNet(3, 9)
@@ -148,7 +149,7 @@ class _Spaghetti(pl.LightningModule):
                 save_image(
                     visual,
                     os.path.join(
-                        self.save_dir, "visual",
+                        self.save_dir, self.visualization_subdir,
                         f"visual_rank_{str(self.global_rank)}_batch_{batch_idx}_epoch_{self.current_epoch}.png"
                     ),
                     nrow=4, normalize=True, value_range=(-1, 1)
@@ -193,10 +194,11 @@ def train_spaghetti(train_loader, val_loader, batch_size=1, weights=None,
         final_save_dir = os.getcwd()
     else:
         final_save_dir = save_dir
-    if not os.path.exists(os.path.join(final_save_dir, f"{name}_visualization")):
-        os.makedirs(os.path.join(final_save_dir, f"{name}_visualization"))
+    visualization_subdir = f"{name}_visualization"
+    if not os.path.exists(os.path.join(final_save_dir, visualization_subdir)):
+        os.makedirs(os.path.join(final_save_dir, visualization_subdir))
     # create model
-    lit_model = _Spaghetti(save_dir=final_save_dir, batch_size=batch_size, weights=weights, lr=lr)
+    lit_model = _Spaghetti(save_dir=final_save_dir, batch_size=batch_size, weights=weights, lr=lr, visualization_subdir=visualization_subdir)
     # train model
     logger = CSVLogger(final_save_dir, name=name)
     trainer = pl.Trainer(max_epochs=epochs, devices=ngpus_per_node, num_nodes=num_nodes,
