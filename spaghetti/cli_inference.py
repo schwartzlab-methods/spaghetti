@@ -8,6 +8,24 @@ from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 
 
+class ImageDataset(Dataset):
+    def __init__(self, img_paths, model):
+        self.img_paths = img_paths
+        self.model = model
+        # we need to perform the pre-processing on the images
+        # we will use the default transformation, but you can also define your own transformation using a callable
+        self.transform = "default"
+
+    def __len__(self):
+        return len(self.img_paths)
+
+    def __getitem__(self, idx):
+        img_path = self.img_paths[idx]
+        img = Image.open(img_path).convert("RGB")
+        transformed_img = self.model.pre_processing([img], transform=self.transform)[0]
+        return transformed_img
+
+
 def inference(input, output, checkpoint):
     """
     The inference function for the CLI inference
@@ -31,24 +49,6 @@ def inference(input, output, checkpoint):
         names = [str(os.path.basename(input)).split(".")[0]]
     # create the model
     model = inferences.Spaghetti(checkpoint)
-    # create dataset
-    class ImageDataset(Dataset):
-        def __init__(self, img_paths, model):
-            self.img_paths = img_paths
-            self.model = model
-            # we need to perform the pre-processing on the images
-            # we will use the default transformation, but you can also define your own transformation using a callable
-            self.transform = "default"
-
-        def __len__(self):
-            return len(self.img_paths)
-
-        def __getitem__(self, idx):
-            img_path = self.img_paths[idx]
-            img = Image.open(img_path).convert("RGB")
-            transformed_img = self.model.pre_processing([img], transform=self.transform)[0]
-            return transformed_img
-    
     # perform the inference
     dataset = ImageDataset(imgs, model)
     dataloader = DataLoader(dataset, batch_size=1, shuffle=False)
