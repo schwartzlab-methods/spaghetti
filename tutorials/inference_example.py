@@ -50,7 +50,7 @@ dataset = ImageDataset(imgs, model)
 dataloader = DataLoader(dataset, batch_size=1, shuffle=False)
 
 # perform the inferences, this will return the images in a list of cpu torch.Tensor of each translated image if save_path is None
-# otherwise the images will be saved to the output_path and the no images will be returned 
+# otherwise the images will be saved to the output_path and no images will be returned
 model.inference(dataloader, file_names, output_path)
 
 # you can then do all kinds of fun stuff using H&E models on those translated images!
