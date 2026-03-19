@@ -54,10 +54,10 @@ The SPAGHETTI inference model, with the following methods:
     - ```inference```
     Method to translate the images using the SPAGHETTI model initialized with the model checkpoint.
         - **args:**
-            - ```img```: list[```torch.Tensor```], the image(s) to perform the inference. Images have to preprocessed first using the ```pre_processing``` method, each with size [C, H, W] (no batch dimension). 
+            - ```img```: list[```torch.Tensor```] or DataLoader, the image(s) to perform the inference. Images have to preprocessed first using the ```pre_processing``` method. For larger dataset, it is strongly recommended to use DataLoader to allow the inference using a smaller memory.
             - ```names```: list[```str```], the names of the images to be saved
             - ```save_path```: ```str``` or ```None```. If ```str```, images will be saved to the path to after the transformation. If ```None```, transalted images will only be returned but not saved
         - **return:**
-            list[```torch.Tensor```], the images after the SPAGHETTI transformaton.
+            list[```torch.Tensor```], the images after the SPAGHETTI transformaton if no ``save_path`` is given. Otherwise ``None``.
         - **side effects:**
         If ```save_path``` is not ```None```, save the images to the specified path. 
