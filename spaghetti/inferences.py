@@ -7,6 +7,8 @@ import os
 from tqdm import tqdm
 from torchvision.utils import save_image
 import torchvision.transforms.v2 as v2
+from typing import Union
+from torch.utils.data import DataLoader
 
 
 class Spaghetti():
@@ -69,7 +71,7 @@ class Spaghetti():
             processed_imgs.append(transformed)
         return processed_imgs
 
-    def inference(self, imgs: list[torch.Tensor] | DataLoader, names: list[str], save_path=None):
+    def inference(self, imgs: Union[list[torch.Tensor], DataLoader], names: list[str], save_path=None):
         """
         Perform the inference on the image
         args:
