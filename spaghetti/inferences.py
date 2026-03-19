@@ -3,6 +3,7 @@ Perform pre-processing on the images using the pre-trained model
 """
 import torch
 from spaghetti import _spaghetti_modules as sp_modules
+from torch.utils.data import DataLoader
 import os
 from tqdm import tqdm
 from torchvision.utils import save_image
@@ -87,6 +88,14 @@ class Spaghetti():
         if save_path:
             if not os.path.exists(save_path):
                 os.makedirs(save_path)
+        # If a DataLoader is provided, enforce batch_size == 1 to avoid mismatched filenames
+        if isinstance(imgs, DataLoader):
+            batch_size = getattr(imgs, "batch_size", None)
+            if batch_size is not None and batch_size != 1:
+                raise ValueError(
+                    "Spaghetti.inference currently supports DataLoader inputs only with batch_size == 1. "
+                    f"Got batch_size={batch_size}. Please set batch_size=1 or pass a list of tensors instead."
+                )
         with torch.no_grad():
             for idx, img in enumerate(tqdm(imgs)):
                 if len(img.shape) == 3:  # if the image is in the form of CxHxW, add a batch dimension
