@@ -69,15 +69,16 @@ class Spaghetti():
             processed_imgs.append(transformed)
         return processed_imgs
 
-    def inference(self, imgs: list[torch.Tensor], names: list[str], save_path=None):
+    def inference(self, imgs: list[torch.Tensor] | DataLoader, names: list[str], save_path=None):
         """
         Perform the inference on the image
         args:
-            img: list[torch.Tensor], the image(s) to perform the inference
+            img: list[torch.Tensor] or DataLoader, the image(s) to perform the inference.
+                 For DataLoader, it is expected that the DataLoader will return a batch of images in the form of torch.Tensor.
             names: list[str], the names of the images
             save_path: str or None. If str, images will be saved to the path to after the transformation
         return:
-            list[torch.Tensor], the images after the SPAGHETTI transformaton
+            list[torch.Tensor], the images after the SPAGHETTI transformaton if save_path is None, otherwise None
         """
         print("Performing Inference...")
         transformed_imgs = []
@@ -86,7 +87,10 @@ class Spaghetti():
                 os.makedirs(save_path)
         with torch.no_grad():
             for idx, img in enumerate(tqdm(imgs)):
-                img = img.unsqueeze(0).to(self.device)
+                if len(img.shape) == 3:  # if the image is in the form of CxHxW, add a batch dimension
+                    img = img.unsqueeze(0).to(self.device)
+                else:
+                    img = img.to(self.device)
                 transformed = self.generator(img).squeeze(0).cpu()
                 # normalize to range [0,1]
                 out = torch.clamp(transformed, min=-1, max=1)
@@ -97,5 +101,9 @@ class Spaghetti():
                 if save_path:
                     name = os.path.join(save_path, f"transformed_{names[idx]}.png")
                     save_image(out, name, nrow=1, normalize=True, value_range=(-1, 1))
-                transformed_imgs.append(out)
-        return transformed_imgs
+                else:
+                    transformed_imgs.append(out)
+        if not save_path:
+            return transformed_imgs
+        else:
+            return None
