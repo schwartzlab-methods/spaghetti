@@ -58,6 +58,6 @@ The SPAGHETTI inference model, with the following methods:
             - ```names```: list[```str```], the names of the images to be saved
             - ```save_path```: ```str``` or ```None```. If ```str```, images will be saved to the path to after the transformation. If ```None```, transalted images will only be returned but not saved
         - **return:**
-            list[```torch.Tensor```], the images after the SPAGHETTI transformaton if no ``save_path`` is given. Otherwise ``None``.
+            list[```torch.Tensor```], the images after the SPAGHETTI transformaton when ```save_path``` is ```None```, otherwise ```None``.
         - **side effects:**
         If ```save_path``` is not ```None```, save the images to the specified path. 
