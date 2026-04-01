@@ -23,7 +23,6 @@ virtualenv --no-download spaghetti
 source spaghetti/bin/activate 
 git clone https://github.com/schwartzlab-methods/spaghetti
 cd spaghetti
-python setup.py sdist bdist_wheel
 pip install .
 ```
 
