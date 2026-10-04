@@ -6,6 +6,8 @@ Implementation of the SPAGHETTI method for phase-contrast microscopy images pre-
 
 Read the documentation at [documentations.md](documentations.md)
 
+Read the paper at [bioRixv](https://www.biorxiv.org/content/10.1101/2025.08.27.672636v1)
+
 ## Installing SPAGHETTI
 
 ### Installing using PyPI
