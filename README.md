@@ -6,7 +6,7 @@ Implementation of the SPAGHETTI method for phase-contrast microscopy images pre-
 
 Read the documentation at [documentations.md](documentations.md)
 
-Read the paper (and please cite us!) at [Light: Science and Applications](www.doi.org/10.1038/s41377-026-02529-6)
+Read the paper (and please cite us!) at [Light: Science and Applications](https://www.doi.org/10.1038/s41377-026-02529-6)
 
 ## Installing SPAGHETTI
 
